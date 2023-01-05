@@ -1,22 +1,46 @@
 import { ethers } from "hardhat";
 
+const deployWETH = async (): Promise<string> => {
+  const WETH = await ethers.getContractFactory("WETH9");
+  const wETH = await WETH.deploy();
+
+  const { address } = await wETH.deployed();
+
+  return address;
+};
+
+const deployFactory = async (): Promise<string> => {
+  const [owner] = await ethers.getSigners();
+
+  const UniswapV2Factory = await ethers.getContractFactory("UniswapV2Factory");
+  const uniswapV2Factory = await UniswapV2Factory.deploy(owner.address);
+
+  const { address } = await uniswapV2Factory.deployed();
+
+  return address;
+};
+
+const deployRouter = async (factory: string, weth: string) => {
+  const UniswapV2Router02 = await ethers.getContractFactory(
+    "UniswapV2Router02"
+  );
+  const uniswapV2Router02 = await UniswapV2Router02.deploy(factory, weth);
+
+  const { address } = await uniswapV2Router02.deployed();
+
+  return address;
+};
+
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const weth = await deployWETH();
+  const factory = await deployFactory();
+  const router = await deployRouter(factory, weth);
 
-  const lockedAmount = ethers.utils.parseEther("1");
-
-  const Lock = await ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
-
-  await lock.deployed();
-
-  console.log(`Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`);
+  console.log("WETH deployed to: ", weth);
+  console.log("UniswapV2Factory deployed to: ", factory);
+  console.log("UniswapV2Router02 deployed to: ", router);
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

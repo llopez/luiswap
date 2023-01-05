@@ -17,6 +17,7 @@
     "@types/chai": "^4.2.0",
     "@types/mocha": "^9.1.0",
     "@types/node": ">=12.0.0",
+    "@uniswap/lib": "^4.0.1-alpha",
     "chai": "^4.2.0",
     "ethers": "^5.4.7",
     "hardhat": "^2.12.5",
