@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "./tasks";
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -10,6 +11,7 @@ const config: HardhatUserConfig = {
         version: "0.6.6",
         settings: { optimizer: { enabled: true, runs: 1000 } },
       },
+      { version: "0.8.9" },
     ],
   },
 };

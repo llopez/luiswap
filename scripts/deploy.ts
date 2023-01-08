@@ -1,5 +1,29 @@
 import { ethers } from "hardhat";
 
+const deployTokenA = async (): Promise<string> => {
+  const TokenA = await ethers.getContractFactory("TokenA");
+
+  const initialSupply = ethers.utils.parseEther("5000");
+
+  const tokenA = await TokenA.deploy(initialSupply);
+
+  const { address } = await tokenA.deployed();
+
+  return address;
+};
+
+const deployTokenB = async (): Promise<string> => {
+  const TokenB = await ethers.getContractFactory("TokenB");
+
+  const initialSupply = ethers.utils.parseEther("5000");
+
+  const tokenB = await TokenB.deploy(initialSupply);
+
+  const { address } = await tokenB.deployed();
+
+  return address;
+};
+
 const deployWETH = async (): Promise<string> => {
   const WETH = await ethers.getContractFactory("WETH9");
   const wETH = await WETH.deploy();
@@ -32,13 +56,21 @@ const deployRouter = async (factory: string, weth: string) => {
 };
 
 async function main() {
+  const tokenA = await deployTokenA();
+  const tokenB = await deployTokenB();
   const weth = await deployWETH();
   const factory = await deployFactory();
   const router = await deployRouter(factory, weth);
 
-  console.log("WETH deployed to: ", weth);
-  console.log("UniswapV2Factory deployed to: ", factory);
-  console.log("UniswapV2Router02 deployed to: ", router);
+  const data = {
+    tokenA: { address: tokenA },
+    tokenB: { address: tokenB },
+    weth: { address: weth },
+    factory: { address: factory },
+    router: { address: router },
+  };
+
+  console.table(data);
 }
 
 main().catch((error) => {
