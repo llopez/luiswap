@@ -12,13 +12,13 @@ describe("UniswapV2Factory", () => {
   };
 
   describe("createPair", () => {
-    it("does something", async () => {
+    it("emits PairCreated event", async () => {
       const { contract } = await deployContract();
 
       const tokenA = "0x0000000000000000000000000000000000000001";
       const tokenB = "0x0000000000000000000000000000000000000002";
 
-      expect(await contract.createPair(tokenA, tokenB)).to.emit(
+      await expect(contract.createPair(tokenA, tokenB)).to.emit(
         contract,
         "PairCreated"
       );
