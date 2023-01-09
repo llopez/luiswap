@@ -30,7 +30,7 @@ describe("UniswapV2Router02", () => {
   };
 
   describe("addLiquidity", () => {
-    it("does something", async () => {
+    it("updates reserves and totalSupply", async () => {
       const { deployer, router, tokenA, tokenB, factory } =
         await deployContract();
 

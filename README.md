@@ -1,13 +1,39 @@
-# Sample Hardhat Project
+# Luiswap
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Uniswap v2 clone
 
-Try running some of the following tasks:
+### Tech Stack:
+
+- Hardhat
+- Solidity
+- TypeScript
+
+### Installation
 
 ```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+git clone https://github.com/llopez/luiswap
+cd luiswap
+yarn install
 ```
+
+### Testing
+
+```shell
+yarn test
+```
+
+### Development
+
+```shell
+# start local blockchain
+yarn chain
+# deploy contracts to local blockchain
+yarn local:deploy
+# start local web3 console
+yarn local:console
+```
+
+#### Tasks:
+
+- createPair
+- addLiquidity
